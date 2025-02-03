@@ -16,7 +16,7 @@ all:
 	$(MAKE) test
 
 app: $(BASE_SOURCE:.cpp=.o) $(APP_SOURCES:.cpp=.o)
-	$(CC) $(CFLAGS) -o bin/app $(BASE_SOURCE:.cpp=.o) $(APP_SOURCES:.cpp=.o)
+	$(CXX) $(CFLAGS) -o bin/app $(BASE_SOURCE:.cpp=.o) $(APP_SOURCES:.cpp=.o)
 
 test: $(BASE_SOURCE:.cpp=.o) $(TEST_SOURCES_C:.c=.o) $(TEST_SOURCES_CPP:.cpp=.o)
 	$(CXX) $(CXXFLAGS) -o bin/test $(BASE_SOURCE:.cpp=.o) $(TEST_SOURCES_C:.c=.o) $(TEST_SOURCES_CPP:.cpp=.o)
