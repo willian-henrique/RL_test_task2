@@ -15,7 +15,6 @@ RocketMath::~RocketMath()
 uint32_t RocketMath::reverse_numbers(uint32_t base_number){
 
     uint32_t reversed = 0;
-    uint16_t multiplication_factor = 10;
     bool flag_last = false;
     do{
 
@@ -101,11 +100,11 @@ uint8_t RocketMath::multiply(char *num_a, char *num_b, char *result){
     //Isn't an optimized, but is easier to the given time
     char temp_result[SIZE_OF_POWER_FUNC_RESULT + 1][SIZE_OF_POWER_FUNC_RESULT];
     memset(temp_result, 0, (SIZE_OF_POWER_FUNC_RESULT+1)*SIZE_OF_POWER_FUNC_RESULT);
-    for (int64_t a = 0; a < size_a; a++){
+    for (size_t a = 0; a < size_a; a++){
 
         int64_t carry = 0;
         int64_t mult = 0;
-        int64_t b = 0;
+        size_t b = 0;
         for ( ; b < size_b; b++)
         {
             mult = (local_num_a[size_a -1 - a] - '0') * (local_num_b[size_b -1 - b] - '0') + carry;
@@ -132,7 +131,7 @@ uint8_t RocketMath::power(char* base, char* exponent, char result[SIZE_OF_POWER_
     memset(result, 0, SIZE_OF_POWER_FUNC_RESULT);
 
     result[0] = '1';
-    for (size_t i = 0; i < stoi(exponent); i++)
+    for (size_t i = 0; i < (size_t) stoi(exponent); i++)
     {
         multiply(base, result, result);
     }
