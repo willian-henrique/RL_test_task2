@@ -2,8 +2,6 @@
 #define RocketMath_H
 
 #include <stdint.h>
-#include <cstdint>
-#include <string.h>
 
 #define SIZE_OF_POWER_FUNC_RESULT           1024
 
