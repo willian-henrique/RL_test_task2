@@ -1,5 +1,6 @@
 #include <cmath>
-#include <iostream>
+#include <cstdint>
+#include <string.h>
 
 #include "RocketMath.h"
 using namespace std;
@@ -131,7 +132,7 @@ uint8_t RocketMath::power(char* base, char* exponent, char result[SIZE_OF_POWER_
     memset(result, 0, SIZE_OF_POWER_FUNC_RESULT);
 
     result[0] = '1';
-    for (size_t i = 0; i < (size_t) stoi(exponent); i++)
+    for (size_t i = 0; i < (size_t) atoi(exponent); i++)
     {
         multiply(base, result, result);
     }
