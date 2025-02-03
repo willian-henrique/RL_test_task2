@@ -34,7 +34,11 @@ public:
     uint8_t power(char* base, char* exponent, char result[SIZE_OF_POWER_FUNC_RESULT]);
 
     /**
+     * Calculate the multiplication of given 2 numbers num_a*num_b
      * 
+     * @param num_a first number
+     * @param num_b second number
+     * @param result return of operation
      */
     uint8_t multiply(char *num_a, char *num_b, char *result);
 
@@ -50,6 +54,10 @@ public:
 
 private:
 
+    /**
+     * Inverte a given c-string i.e. "123456789" will be "987654321"
+     * @param str_to_invert C-string to be inverted.
+     */
     void invert_string(char *str_to_invert);
 };
 
