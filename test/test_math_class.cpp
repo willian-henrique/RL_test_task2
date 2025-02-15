@@ -1,8 +1,11 @@
 #include "unity_framework/unity.h"
 #include "../src/RocketMath.h"
+#include <string>
 #include <string.h>
+#include <memory>
 
 RocketMath to_test;
+using std::string, std::shared_ptr, std::make_shared;
 
 void setUp(void) {
     // nothing to do in the initialization math class
@@ -23,98 +26,112 @@ void test_function_reverse_numbers(void) {
 
 void test_function_power(void) {
     
-    char result[1024];
-    char base[1024];
-    char exponent[1024];
+    shared_ptr result = make_shared<string>();
+    shared_ptr base = make_shared<string>();
+    shared_ptr exponent = make_shared<string>();
 
-    strcpy(base, "1234");
-    strcpy(exponent, "5");    
-    to_test.power(base, exponent, result);
-    TEST_ASSERT_EQUAL_STRING("2861381721051424", result);
+    *result = "";
+    *base = "1234";
+    *exponent = "5";
 
-    memset(base, 0, 1024);
-    memset(exponent, 0, 1024);
-    memset(result, 0, 1024);
-    strcpy(base, "12");
-    strcpy(exponent, "21");    
-    to_test.power(base, exponent, result);
-    TEST_ASSERT_EQUAL_STRING("46005119909369701466112", result);
+    to_test.power((const shared_ptr<const string>) base, (const shared_ptr<const string>) exponent, result);
+    TEST_ASSERT_EQUAL_STRING("2861381721051424", result->c_str());
 
-    //BIG numbers are failing
-    memset(base, 0, 1024);
-    memset(exponent, 0, 1024);
-    memset(result, 0, 1024);
-    strcpy(base, "13");
-    strcpy(exponent, "31");    
+    *result = "";
+    *base = "12";
+    *exponent = "21";    
     to_test.power(base, exponent, result);
-    TEST_ASSERT_EQUAL_STRING("34059943367449284484947168626829637", result);
+    TEST_ASSERT_EQUAL_STRING("46005119909369701466112", result->c_str());
+
+    *result = "";
+    *base = "13";
+    *exponent = "31";    
+    to_test.power(base, exponent, result);
+    TEST_ASSERT_EQUAL_STRING("34059943367449284484947168626829637", result->c_str());
+
+    *result = "";
+    *base = "123";
+    *exponent = "321";    
+    to_test.power(base, exponent, result);
+    TEST_ASSERT_EQUAL_STRING("72367033806371673149109894141163778628811792657571658906010558390395870363"
+                    "79840174409528068615550773640492165707028496172182896059297790954263709889"
+                    "76972231026226285667876540913278254539915951402057014129613641887324089361"
+                    "97890553699715836951569999800431957769217006743321026257517932764164662319"
+                    "48791496253330274136820721118949461532655279066772041128547416263676516890"
+                    "72119241349733743044960196353766658585599417357039248364677569172479954695"
+                    "83487467791524582153744522107597865277798136080074161485280424274076931083"
+                    "99448711171956224970254036285571291113226596623575435535351670333904300150"
+                    "61185207603595777378694720186179421205908731707108050786963717389063757217"
+                    "85723", result->c_str());
+
 }
 
 void test_function_multiply(void) {
     
-    char result[1024];
-    char value_a[1024];
-    char value_b[1024];
+    shared_ptr result = make_shared<string>();
+    shared_ptr value_a = make_shared<string>();
+    shared_ptr value_b = make_shared<string>();
 
-    strcpy(value_a, "1234");
-    strcpy(value_b, "1");    
-    to_test.multiply(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("1234", result);
+    *value_a = "1234";
+    *value_b = "1";    
+    to_test.multiply((const shared_ptr<const string>) value_a, (const shared_ptr<const string>) value_b, result);
+    TEST_ASSERT_EQUAL_STRING("1234", result.get()->c_str());
 
-    strcpy(value_a, "1234");
-    strcpy(value_b, "5678");    
-    to_test.multiply(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("7006652", result);
+    *value_a = "1234";
+    *value_b = "5678";    
+    to_test.multiply((const shared_ptr<const string>) value_a, (const shared_ptr<const string>)value_b, result);
+    TEST_ASSERT_EQUAL_STRING("7006652", result.get()->c_str());
 
-    strcpy(value_a, "5555");
-    strcpy(value_b, "5555");    
-    to_test.multiply(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("30858025", result);
+    *value_a = "5555";
+    *value_b = "5555";    
+    to_test.multiply((const shared_ptr<const string>) value_a, (const shared_ptr<const string>) value_b, result);
+    TEST_ASSERT_EQUAL_STRING("30858025", result.get()->c_str());
 
-    strcpy(value_a, "99999999999");
-    strcpy(value_b, "99999999999");    
-    to_test.multiply(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("9999999999800000000001", result);
+    *value_a = "99999999999";
+    *value_b = "99999999999";    
+    to_test.multiply((const shared_ptr<const string>) value_a,(const shared_ptr<const string>) value_b, result);
+    TEST_ASSERT_EQUAL_STRING("9999999999800000000001", result.get()->c_str());
 
-    strcpy(value_a, "9999999999800000000001");
-    strcpy(value_b, "9999999999800000000001");    
-    to_test.multiply(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("99999999996000000000059999999999600000000001", result);
+    *value_a = "9999999999800000000001";
+    *value_b = "9999999999800000000001";    
+    to_test.multiply((const shared_ptr<const string>) value_a, (const shared_ptr<const string>) value_b, result);
+    TEST_ASSERT_EQUAL_STRING("99999999996000000000059999999999600000000001", result.get()->c_str());
 
     //BIG numbers are failing
-    strcpy(value_a, "99999999999999999999999999999999999999999999");
-    strcpy(value_b, "99999999999999999999999999999999999999999999");    
+    *value_a = "99999999999999999999999999999999999999999999";
+    *value_b = "99999999999999999999999999999999999999999999";    
     to_test.multiply(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("9999999999999999999999999999999999999999999800000000000000000000000000000000000000000001", result);
+    TEST_ASSERT_EQUAL_STRING("9999999999999999999999999999999999999999999800000000000000000000000000000000000000000001", result.get()->c_str());
 }
 
 void test_function_sum(void) {
     
-    char result[1024];
-    char value_a[1024];
-    char value_b[1024];
+    shared_ptr result = make_shared<string>();
+    shared_ptr value_a = make_shared<string>();
+    shared_ptr value_b = make_shared<string>();
 
-    strcpy(value_a, "86380");
-    strcpy(value_b, "6170000");    
+    *value_a = "86380";
+    *value_b = "6170000";    
     to_test.sum(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("6256380", result);
+    TEST_ASSERT_EQUAL_STRING("6256380", result.get()->c_str());
 
-    strcpy(value_a, "2403942039420493209420423084032840923840293859043803489385903859340850986380");
-    strcpy(value_b, "61700005305930352930493049032034924304902940934290");    
+    *value_a = "2403942039420493209420423084032840923840293859043803489385903859340850986380";
+    *value_b = "61700005305930352930493049032034924304902940934290";    
     to_test.sum(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("2403942039420493209420423145732846229770646789536852521420828164243791920670", result);
+    TEST_ASSERT_EQUAL_STRING("2403942039420493209420423145732846229770646789536852521420828164243791920670", result.get()->c_str());
+    
 
 
-    memset(result, 0, 1024);
-    memset(value_a, 0, 1024);
-    strcpy(value_b, "6170000");    
+    *result = "";
+    *value_a = "0";
+    *value_b = "6170000";    
     to_test.sum(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("6170000", result);
+    TEST_ASSERT_EQUAL_STRING("6170000", result.get()->c_str());
 
-    strcpy(value_a, "99999999");
-    strcpy(value_b, "99999999");    
+    *value_a = "99999999";
+    *value_b = "99999999";    
     to_test.sum(value_a, value_b, result);
-    TEST_ASSERT_EQUAL_STRING("199999998", result);
+    TEST_ASSERT_EQUAL_STRING("199999998", result.get()->c_str());
 }
 // not needed when using generate_test_runner.rb
 int main(void) {

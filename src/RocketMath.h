@@ -2,8 +2,12 @@
 #define RocketMath_H
 
 #include <stdint.h>
+#include <string>
+#include <memory>
 
 #define SIZE_OF_POWER_FUNC_RESULT           1024
+
+using std::string, std::shared_ptr;
 
 class RocketMath
 {
@@ -22,14 +26,14 @@ public:
     /**
      * Calculate the power of given base and exponent number 
      * 
-     * @param base number in the format of c-string of the operation.
+     * @param base number in the format of string of the operation.
      * @param exponent number in the format of c-string of the operation.
      * @param result  result of the operation in the format of c-string.
      * @return result if the operation was successful, where:
      *      0 - success
      *      1 - error 
      */
-    uint8_t power(char* base, char* exponent, char result[SIZE_OF_POWER_FUNC_RESULT]);
+    uint8_t power(const shared_ptr<const string> base, const shared_ptr<const string> exponent, shared_ptr<string> result);
 
     /**
      * Calculate the multiplication of given 2 numbers num_a*num_b
@@ -38,7 +42,7 @@ public:
      * @param num_b second number
      * @param result return of operation
      */
-    uint8_t multiply(char *num_a, char *num_b, char *result);
+    uint8_t multiply(const shared_ptr<const string> num_a, const shared_ptr<const string> num_b, shared_ptr<string> result);
 
     /**
      * Sum 2 values in c-string format.
@@ -48,7 +52,7 @@ public:
      * 
      * @note This function doesn't handle negative values (FIXME)
      */
-    void sum(char *num_a, char *num_b, char *result);
+    void sum(const shared_ptr<const string> num_a, const shared_ptr<const string> num_b, shared_ptr<string> result);
 
 private:
 
@@ -56,7 +60,7 @@ private:
      * Inverte a given c-string i.e. "123456789" will be "987654321"
      * @param str_to_invert C-string to be inverted.
      */
-    void invert_string(char *str_to_invert);
+    void invert_string(shared_ptr<string> result);
 };
 
 #endif

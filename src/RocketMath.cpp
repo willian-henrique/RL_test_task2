@@ -1,7 +1,8 @@
 #include <cmath>
 #include <cstdint>
 #include <string.h>
-
+#include <string>
+#include <iostream>
 #include "RocketMath.h"
 using namespace std;
 
@@ -30,35 +31,35 @@ uint32_t RocketMath::reverse_numbers(uint32_t base_number){
 }
 
 
-void RocketMath::invert_string(char *str_to_invert){
+void RocketMath::invert_string(shared_ptr<string> result){
 
-    int len = strlen(str_to_invert);
+    int len = result.get()->length();
+    // cout << "len " << len << "  res " << result.get()->c_str() << endl;
     for (int i = 0; i < len / 2; i++) {
 
-        char temp = str_to_invert[i];
-        str_to_invert[i] = str_to_invert[len - 1 - i];
-        str_to_invert[len - 1 - i] = temp;
+        char temp = (*result)[i];
+        (*result)[i] = (*result)[len - 1 - i];
+        (*result)[len - 1 - i] = temp;
     }
 }
 
-void RocketMath::sum(char *num_a, char *num_b, char *result){
+void RocketMath::sum(const shared_ptr<const string> num_a, const shared_ptr<const string> num_b, shared_ptr<string> result){
 
-    size_t size_a = strlen(num_a);
-    size_t size_b = strlen(num_b);
-    char local_num_a[SIZE_OF_POWER_FUNC_RESULT];
-    char local_num_b[SIZE_OF_POWER_FUNC_RESULT];
+    size_t size_a = num_a.get()->length();
+    size_t size_b = num_b.get()->length();
+
+    shared_ptr<string> local_num_a = make_shared<string>();
+    shared_ptr<string> local_num_b = make_shared<string>();
+    
     uint32_t carry = 0;
     uint32_t sum = 0;    
     size_t bigger = 0;
+    char a, b;
 
-    memset(local_num_a, 0, SIZE_OF_POWER_FUNC_RESULT);
-    strcpy(local_num_a, num_a);
 
-    memset(local_num_b, 0, SIZE_OF_POWER_FUNC_RESULT);
-    strcpy(local_num_b, num_b);
-
-    memset(result, 0, SIZE_OF_POWER_FUNC_RESULT);
-
+    *local_num_a = *num_a;
+    *local_num_b = *num_b;
+    *result = "";
     invert_string(local_num_a);
     invert_string(local_num_b);
 
@@ -67,74 +68,77 @@ void RocketMath::sum(char *num_a, char *num_b, char *result){
     }else{
         bigger = size_b;
     }
+
     for (uint32_t i = 0; i < bigger ; i++){
         
-        if(local_num_a[i] > '9' || local_num_a[i] < '0'){
+        if((*local_num_a)[i] > '9' || (*local_num_a)[i] < '0' || local_num_a.get()->size() < i){
 
-            local_num_a[i] = '0';
+            a = '0';
+        }else{
+            a = (*local_num_a)[i];
         }
-        if(local_num_b[i] > '9' || local_num_b[i] < '0'){
 
-            local_num_b[i] = '0';
+        if((*local_num_b)[i] > '9' || (*local_num_b)[i] < '0' || local_num_b.get()->size() < i ){
+            b = '0';
+        }else{
+            b = (*local_num_b)[i];
         }
-        sum = (local_num_a[i] - '0') + (local_num_b[i] - '0') + carry;
-        result[i] = (sum%10 + '0');
+        sum = (a - '0') + (b - '0') + carry;
+        (*result) += (sum%10 + '0');
         carry = sum/10;
     }
     if(carry != 0){
-        result[bigger] = carry + '0'; 
+        (*result) += carry + '0';
+        carry = 0;
     }
     invert_string(result);
 }
-uint8_t RocketMath::multiply(char *num_a, char *num_b, char *result){
+uint8_t RocketMath::multiply(const shared_ptr<const string> num_a, const shared_ptr<const string> num_b, shared_ptr<string> result){
 
-    size_t size_a = strlen(num_a);
-    size_t size_b = strlen(num_b);
-    char local_num_a[SIZE_OF_POWER_FUNC_RESULT];
-    char local_num_b[SIZE_OF_POWER_FUNC_RESULT];
+    shared_ptr mult_result = make_shared<string>("");
+    shared_ptr sum_result = make_shared<string>("");
+    size_t size_a = num_a.get()->length();
+    size_t size_b = (*num_b).length();
 
-    memset(local_num_a, 0, SIZE_OF_POWER_FUNC_RESULT);
-    strcpy(local_num_a, num_a);
-    memset(local_num_b, 0, SIZE_OF_POWER_FUNC_RESULT);
-    strcpy(local_num_b, num_b);
-    memset(result, 0, SIZE_OF_POWER_FUNC_RESULT);
-    //Isn't an optimized, but is easier to the given time
-    char temp_result[SIZE_OF_POWER_FUNC_RESULT + 1][SIZE_OF_POWER_FUNC_RESULT];
-    memset(temp_result, 0, (SIZE_OF_POWER_FUNC_RESULT+1)*SIZE_OF_POWER_FUNC_RESULT);
+
+    *result = "";
+        
     for (size_t a = 0; a < size_a; a++){
 
         int64_t carry = 0;
         int64_t mult = 0;
         size_t b = 0;
+        *mult_result = "";
+
         for ( ; b < size_b; b++)
         {
-            mult = (local_num_a[size_a -1 - a] - '0') * (local_num_b[size_b -1 - b] - '0') + carry;
-            temp_result[a][b] = (mult%10 + '0');
+            mult = ((*num_a)[size_a -1 - a] - '0') * ( (*num_b)[size_b -1 - b] - '0') + carry;
+            (*mult_result) += (mult%10 + '0');
             carry = mult/10;
         }  
         if (carry > 0)
         {
-            temp_result[a][size_b] = carry + '0';
+            (*mult_result) += carry + '0';
         }
         // Is necessary multiply by 10, 100, 1000 to after sum the result (easy way to do a shift).
-        strcpy(&temp_result[a][a], &temp_result[a][0]);
-        memset(&temp_result[a][0], '0', a);
+        (*mult_result) = string("").append(a, '0') + *mult_result ; 
         //Now invert to keep the standard
-        invert_string(temp_result[a]);
-        sum(temp_result[a], temp_result[size_a + 1], temp_result[size_a + 1]);
-       
+        invert_string(mult_result);
+        sum(mult_result, sum_result, sum_result);      
     }
-    strcpy(result, temp_result[size_a+1]); 
+    *result = *sum_result;
     return 0;
 }
-uint8_t RocketMath::power(char* base, char* exponent, char result[SIZE_OF_POWER_FUNC_RESULT]){
+uint8_t RocketMath::power(const shared_ptr<const string> base, const shared_ptr<const string> exponent, shared_ptr<string> result){
  
-    memset(result, 0, SIZE_OF_POWER_FUNC_RESULT);
-
-    result[0] = '1';
-    for (size_t i = 0; i < (size_t) atoi(exponent); i++)
+    size_t exp;
+    shared_ptr local_result = make_shared<string>("1");
+    
+    exp = std::stoi(*exponent);
+    for (size_t i = 0; i < exp; i++)
     {
-        multiply(base, result, result);
+        multiply(base, local_result, result);
+        *local_result = *result;
     }
     return 0;
 }
