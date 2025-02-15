@@ -1,6 +1,6 @@
 # RL_test_task2
 
-Project to calculete the reverse power of a given number i.e.
+Project to calculate the reverse power of a given number i.e.
 
 C=A^B
 
@@ -20,7 +20,12 @@ Running
 ```
 ./bin/app
 ```
+Output:
 
+![Image description](https://github.com/willian-henrique/RL_test_task2/blob/main/image/app_running.png)
+  
+  
+  
 Compiling tests
 
 ```
@@ -30,3 +35,9 @@ Running
 ```
 ./bin/test
 ```
+Output:
+
+![Image description](https://github.com/willian-henrique/RL_test_task2/blob/main/image/test_running.png)
+  
+  
+  
