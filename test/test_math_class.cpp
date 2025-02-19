@@ -1,12 +1,17 @@
 #include "unity_framework/unity.h"
 #include "../src/RocketMath.h"
 #include <string>
+// Não precisa usar o .h aqui também.
 #include <string.h>
 #include <memory>
 
+// Sempre evite objetos globais estáticos assim se você puder. É chato pra linkar,
+// é chato pra saber ordem de inicialização, etc... Como aqui é um 
+// teste, talvez dê pra usar algo da biblioteca de tearu up, tear down.
 RocketMath to_test;
 using std::string, std::shared_ptr, std::make_shared;
 
+// Em C++ essa assinatura com (void) é equivalente a ()
 void setUp(void) {
     // nothing to do in the initialization math class
 }
@@ -25,11 +30,15 @@ void test_function_reverse_numbers(void) {
 }
 
 void test_function_power(void) {
-    
+    // Não necessidade de usar ponteiros aqui, também não tem necessidade
+    // de alocar memória na heap. É desperdício. Stack quase sempre é melhor,
+    // raríssimo casos você teria que evitar a stack.
     shared_ptr result = make_shared<string>();
     shared_ptr base = make_shared<string>();
     shared_ptr exponent = make_shared<string>();
 
+    // Como disse ali em cima a heap é desnecessário, mas é melhor fazer algo como
+    // const auto base = std::make_shared<string>("1234") por exemplo.
     *result = "";
     *base = "1234";
     *exponent = "5";
