@@ -1,8 +1,9 @@
 CC=gcc
 CXX=g++
 CFLAGS=-Wall -Wextra -std=c99 -g
-CXXFLAGS=-Wall -Wextra -std=c++17 -g
+CXXFLAGS=-Wall -Wextra -std=c++17 -g 
 
+#print lst files -Wa,-adhln
 # Define lists of source files
 BASE_SOURCE := src/RocketMath.cpp
 APP_SOURCES := main.cpp
