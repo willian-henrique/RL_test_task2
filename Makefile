@@ -11,6 +11,7 @@ APP_SOURCES := main.cpp
 TEST_SOURCES_CPP := test/test_math_class.cpp
 TEST_SOURCES_C := test/unity_framework/unity.c
 
+# arm-none-eabi-g++ -Wall -Wextra -std=c++17 -g -O3 -S -fverbose-asm  -c src/RocketMath.cpp  -o RocketMath.s
 # Define targets
 all: 
 	$(MAKE) app

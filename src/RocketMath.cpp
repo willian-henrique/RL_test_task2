@@ -48,19 +48,19 @@ string RocketMath::sum(const string &num_a, const string &num_b){
     size_t size_a = num_a.length();
     size_t size_b = num_b.length();
 
-    string local_num_a = string();
-    string local_num_b = string();
-    string result = string();
+    string local_num_a = "";
+    string local_num_b = "";
+    string result = "";
 
     uint32_t carry = 0;
     uint32_t sum = 0;    
     size_t bigger = 0;
-    char a, b;
+    char a = '0', b = '0';
 
 
     local_num_a = num_a;
     local_num_b = num_b;
-    result = "";
+
     invert_string(local_num_a);
     invert_string(local_num_b);
 
@@ -72,17 +72,17 @@ string RocketMath::sum(const string &num_a, const string &num_b){
 
     for (uint32_t i = 0; i < bigger ; i++){
         
-        if(local_num_a[i] > '9' || local_num_a[i] < '0' || local_num_a.size() < i){
+        if(local_num_a.size() < i || local_num_a[i] > '9' || local_num_a[i] < '0'){
 
             a = '0';
         }else{
             a = local_num_a[i];
         }
 
-        if(local_num_b[i] > '9' || local_num_b[i] < '0' || local_num_b.size() < i ){
-            b = '0';
+        if(local_num_b.size() < i || local_num_b[i] > '9' || local_num_b[i] < '0'  ){
+            b = '0';    
         }else{
-            b = local_num_b[i];
+                
         }
         sum = (a - '0') + (b - '0') + carry;
         result += (sum%10 + '0');
@@ -98,8 +98,8 @@ string RocketMath::sum(const string &num_a, const string &num_b){
 }
 pair<bool, string> RocketMath::multiply(const string &num_a, const string &num_b){
 
-    string mult_result = string();
-    string sum_result = string();
+    string mult_result = "";
+    string sum_result = "";
     size_t size_a = num_a.length();
     size_t size_b = num_b.length();
         
@@ -130,8 +130,8 @@ pair<bool, string> RocketMath::multiply(const string &num_a, const string &num_b
 }
 pair<bool, string> RocketMath::power(const string &base, const string &exponent){
  
-    size_t exp;
-    string local_result = string("1");
+    size_t exp = 0;
+    string local_result = "1";
     pair<bool, string> p;
     exp = std::stoi(exponent);
     for (size_t i = 0; i < exp; i++)
